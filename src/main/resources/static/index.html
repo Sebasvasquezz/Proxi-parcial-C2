@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Math Application</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <h1>Linear Search</h1>
+        <form action="/hello">
+            <label for="list">Ingresa la lista de numeros, separados por ,:</label><br>
+            <input type="text" id="lista" name="lista"><br><br>
+            <label for="list">Ingresa el numero a buscar:</label><br>
+            <input type="int" id="num" name="num"><br><br>
+            <input type="button" value="Buscar" onclick="linearSearch()">
+        </form> 
+        <div id="getresponselinear"></div>
+
+        <script>
+            function linearSearch() {
+                let listVar = document.getElementById("lista").value;
+                let numVar = document.getElementById("num").value;
+                const xhttp = new XMLHttpRequest();
+                xhttp.onload = function() {
+                    document.getElementById("getresponselinear").innerHTML =
+                    this.responseText;
+                }
+                xhttp.open("GET", "/linearsearch?list="+listVar +"&value="+numVar);
+                xhttp.send();
+            }
+        </script>
+
+        <h1>Binary Search</h1>
+        <form action="/hello">
+            <label for="list">Ingresa la lista de numeros, separados por ,:</label><br>
+            <input type="text" id="listab" name="listab"><br><br>
+            <label for="list">Ingresa el numero a buscar:</label><br>
+            <input type="int" id="numb" name="numb"><br><br>
+            <input type="button" value="Buscar" onclick="binarySearch()">
+        </form> 
+        
+        <div id="getresponsebinary"></div>
+        
+        <script>
+            function binarySearch() {
+                let listVar = document.getElementById("listab").value;
+                let numVar = document.getElementById("numb").value;
+                const xhttp = new XMLHttpRequest();
+                xhttp.onload = function() {
+                    document.getElementById("getresponsebinary").innerHTML =
+                    this.responseText;
+                }
+                xhttp.open("GET", "/binarysearch?list="+listVar +"&value="+numVar);
+                xhttp.send();
+            }
+        </script>
+    </body>
+</html>
