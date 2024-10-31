@@ -61,8 +61,48 @@ public class ProxiController {
 	}
 
 	@GetMapping("/binarysearch")
-	public String binarySearch(@RequestParam(value = "list") int[] list, @RequestParam(value = "value") int value ) {
+	public String binarySearch(@RequestParam(value = "list") int[] list, @RequestParam(value = "value") int value ) throws IOException{
 		
+        String initialPathString = GET_URL + RoundRobin.round(roundRobin)+"/binarysearch?list=";
+        System.out.println("Url inicial:"+initialPathString);
+        for (int i = 0; i < list.length; i++) {
+            if (i!=list.length-1) {
+                initialPathString += list[i]+",";
+            } else{
+                initialPathString += list[i]+"";
+            }
+        }
+
+        String url = initialPathString+"&value="+value;
+
+        System.out.println("Url del servicio:"+url);
+        URL obj = new URL(url);
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        con.setRequestMethod("GET");
+        con.setRequestProperty("User-Agent", USER_AGENT);
+        int responseCode = con.getResponseCode();
+        System.out.println("GET Response Code :: " + responseCode);
+
+        roundRobin = !roundRobin;
+
+        if (responseCode == HttpURLConnection.HTTP_OK) { // success
+            BufferedReader in = new BufferedReader(new InputStreamReader(
+                    con.getInputStream()));
+            String inputLine;
+            StringBuffer response = new StringBuffer();
+
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
+
+            
+            System.out.println("Response: " +response.toString());
+            return response.toString();
+        } else {
+            System.out.println("GET request not worked");
+        }
+        System.out.println("GET DONE");
         return "";
 	}
 
